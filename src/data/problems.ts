@@ -7,7 +7,7 @@ const problemMetadata: Record<string, ProblemMetadata> = {
     title: "Two Sum",
     difficulty: "Easy",
     topics: ["Array", "Hash Map"],
-    visualization: "binary-search",
+    visualization: "two-sum",
     summary: "Find a pair of values whose sum matches the target by trading repeated scanning for constant-time lookup."
   },
   "binary-tree-level-order-traversal": {
@@ -15,7 +15,7 @@ const problemMetadata: Record<string, ProblemMetadata> = {
     title: "Binary Tree Level Order Traversal",
     difficulty: "Medium",
     topics: ["Tree", "BFS", "Queue"],
-    visualization: "bfs",
+    visualization: "tree-traversal",
     summary: "Walk a tree level by level with a queue so each breadth layer is processed together."
   },
   "maximum-depth-of-binary-tree": {
@@ -23,7 +23,7 @@ const problemMetadata: Record<string, ProblemMetadata> = {
     title: "Maximum Depth of Binary Tree",
     difficulty: "Easy",
     topics: ["Tree", "DFS"],
-    visualization: "dfs",
+    visualization: "tree-traversal",
     summary: "Recursively explore root-to-leaf paths and return the longest depth discovered."
   },
   "binary-search": {
@@ -39,8 +39,16 @@ const problemMetadata: Record<string, ProblemMetadata> = {
     title: "Number of Islands",
     difficulty: "Medium",
     topics: ["Graph", "BFS", "DFS", "Queue"],
-    visualization: "bfs",
+    visualization: "tree-traversal",
     summary: "Treat connected land cells as graph components and explore each component once."
+  },
+  "reverse-linked-list": {
+    slug: "reverse-linked-list",
+    title: "Reverse Linked List",
+    difficulty: "Easy",
+    topics: ["Linked List"],
+    visualization: "linked-list",
+    summary: "Rewire next pointers one node at a time while preserving the rest of the list."
   }
 };
 

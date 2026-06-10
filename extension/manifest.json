@@ -4,14 +4,14 @@
   "version": "0.1.0",
   "description": "Interactive DSA coaching, visualization, and learning notes directly on LeetCode problem pages.",
   "permissions": ["storage"],
-  "host_permissions": ["https://leetcode.com/problems/*"],
+  "host_permissions": ["https://leetcode.com/*"],
   "background": {
     "service_worker": "background.js",
     "type": "module"
   },
   "content_scripts": [
     {
-      "matches": ["https://leetcode.com/problems/*"],
+      "matches": ["https://leetcode.com/*"],
       "js": ["content.js"],
       "run_at": "document_idle"
     }

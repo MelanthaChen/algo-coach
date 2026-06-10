@@ -91,7 +91,7 @@ export default function AlgoCoachPanel({ problemSlug }: { problemSlug: string })
             </Section>
 
             <Section title="Visualization" icon={<Eye className="h-4 w-4 text-primary" />}>
-              <VisualizationEngine kind={problem.visualization} onViewed={markVisualizationViewed} />
+              <VisualizationEngine problem={problem} onViewed={markVisualizationViewed} />
             </Section>
 
             <Section title="Learning Notes" icon={<BookOpen className="h-4 w-4 text-primary" />} defaultOpen={false}>
@@ -124,7 +124,8 @@ function conceptHint(topic: string) {
     Queue: "Track the current frontier and process a fixed level size when grouping by depth.",
     Stack: "Store unfinished work when the newest item should be processed first.",
     "Binary Search": "Confirm the range is sorted or the answer space is monotonic before moving pointers.",
-    Graph: "Define nodes, edges, visited state, and the traversal goal before coding."
+    Graph: "Define nodes, edges, visited state, and the traversal goal before coding.",
+    "Linked List": "Track pointer ownership carefully before changing any next reference."
   };
 
   return hints[topic] ?? "Break the problem into state, transitions, and stopping conditions.";

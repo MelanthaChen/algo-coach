@@ -1,4 +1,4 @@
-const PROBLEM_PATH_PATTERN = /^\/problems\/([^/?#]+)\/?$/;
+const PROBLEM_PATH_PATTERN = /^\/problems\/([^/?#]+)(?:\/.*)?$/;
 
 export function isLeetCodeProblemPath(pathname: string) {
   return PROBLEM_PATH_PATTERN.test(pathname);

@@ -9,18 +9,23 @@ const HOST_ID = "algo-coach-shadow-host";
 let root: Root | null = null;
 let lastSlug: string | null = null;
 
+console.log("[AlgoCoach] content script loaded");
+
 function mountPanel() {
   const slug = slugFromPath(window.location.pathname);
   const isProblem = isLeetCodeProblemPath(window.location.pathname);
   const existingHost = document.getElementById(HOST_ID);
 
   if (!isProblem || !slug) {
+    console.log("[AlgoCoach] URL did not match", window.location.href);
     root?.unmount();
     root = null;
     lastSlug = null;
     existingHost?.remove();
     return;
   }
+
+  console.log("[AlgoCoach] URL matched");
 
   if (existingHost && lastSlug === slug) return;
 
@@ -42,9 +47,13 @@ function mountPanel() {
   shadow.append(style, appRoot);
   document.documentElement.appendChild(host);
 
+  console.log("[AlgoCoach] root created");
+
   root = createRoot(appRoot);
   root.render(<AlgoCoachPanel problemSlug={slug} />);
   lastSlug = slug;
+
+  console.log("[AlgoCoach] panel mounted");
 }
 
 mountPanel();
@@ -63,3 +72,5 @@ history.replaceState = function replaceStateWithAlgoCoach(...args) {
 };
 
 window.addEventListener("popstate", mountPanel);
+
+window.addEventListener("locationchange", mountPanel);

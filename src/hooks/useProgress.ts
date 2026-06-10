@@ -3,17 +3,17 @@ import type { ProblemMetadata, ProgressState, Topic, VisualizationKind } from ".
 
 const STORAGE_KEY = "algoCoachProgress";
 
-const topicUniverse: Topic[] = ["Array", "Hash Map", "Tree", "BFS", "DFS", "Queue", "Stack", "Binary Search", "Graph"];
+const topicUniverse: Topic[] = ["Array", "Hash Map", "Tree", "BFS", "DFS", "Queue", "Stack", "Binary Search", "Graph", "Linked List"];
 
 function emptyProgress(): ProgressState {
   return {
     problemsVisited: {},
     topicsExplored: Object.fromEntries(topicUniverse.map((topic) => [topic, 0])) as Record<Topic, number>,
     visualizationsViewed: {
-      "binary-tree": 0,
-      bfs: 0,
-      dfs: 0,
-      "binary-search": 0
+      "two-sum": 0,
+      "tree-traversal": 0,
+      "binary-search": 0,
+      "linked-list": 0
     }
   };
 }

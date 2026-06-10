@@ -63,5 +63,12 @@ export const learningNotes: Record<Topic, LearningNote> = {
     whenToUse: ["The problem has connectivity, neighbors, routes, components, or prerequisites.", "A grid cell can move to adjacent cells."],
     patterns: ["BFS shortest path", "DFS components", "Topological sort", "Union find"],
     complexity: { time: "O(V + E) for traversal.", space: "O(V) for visited state." }
+  },
+  "Linked List": {
+    topic: "Linked List",
+    whatItIs: "A chain of nodes where each node points to the next node instead of using contiguous indexes.",
+    whenToUse: ["The problem asks you to rewire next pointers.", "You need to insert, delete, reverse, or detect cycles without array indexing."],
+    patterns: ["Fast and slow pointers", "Dummy head", "Previous/current/next rewiring", "Cycle detection"],
+    complexity: { time: "Most pointer traversals are O(n).", space: "Often O(1) extra when rewiring in place." }
   }
 };

@@ -7,9 +7,10 @@ export type Topic =
   | "Queue"
   | "Stack"
   | "Binary Search"
-  | "Graph";
+  | "Graph"
+  | "Linked List";
 
-export type VisualizationKind = "binary-tree" | "bfs" | "dfs" | "binary-search";
+export type VisualizationKind = "two-sum" | "tree-traversal" | "binary-search" | "linked-list";
 
 export interface ProblemMetadata {
   slug: string;
