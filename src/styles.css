@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:host {
+  all: initial;
+  color-scheme: light dark;
+}
+
+.algo-coach {
+  --background: 0 0% 100%;
+  --foreground: 222.2 47.4% 11.2%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 47.4% 11.2%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 210 40% 92%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+  --primary: 158 64% 42%;
+  --primary-foreground: 152 100% 97%;
+  --border: 214.3 31.8% 91.4%;
+}
+
+.algo-coach.dark {
+  --background: 222 29% 7%;
+  --foreground: 210 40% 98%;
+  --card: 222 25% 10%;
+  --card-foreground: 210 40% 98%;
+  --muted: 217 20% 16%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --accent: 214 28% 18%;
+  --accent-foreground: 210 40% 98%;
+  --primary: 158 64% 48%;
+  --primary-foreground: 156 72% 8%;
+  --border: 217 18% 20%;
+}
+
+.algo-coach *,
+.algo-coach *::before,
+.algo-coach *::after {
+  box-sizing: border-box;
+  border-color: hsl(var(--border));
+}
+
+.algo-coach button,
+.algo-coach summary {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.algo-coach ::-webkit-scrollbar {
+  width: 10px;
+}
+
+.algo-coach ::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border: 3px solid hsl(var(--background));
+  border-radius: 999px;
+}
