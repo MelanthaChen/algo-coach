@@ -3,13 +3,33 @@ import type { ProblemMetadata, ProgressState, Topic, VisualizationKind } from ".
 
 const STORAGE_KEY = "algoCoachProgress";
 
-const topicUniverse: Topic[] = ["Array", "Hash Map", "Tree", "BFS", "DFS", "Queue", "Stack", "Binary Search", "Graph", "Linked List"];
+export const topicUniverse: Topic[] = [
+  "Array",
+  "Hash Map",
+  "Linked List",
+  "Stack",
+  "Queue",
+  "Tree",
+  "Graph",
+  "Heap",
+  "Binary Search",
+  "Backtracking",
+  "Dynamic Programming",
+  "BFS",
+  "DFS"
+];
 
 function emptyProgress(): ProgressState {
   return {
     problemsVisited: {},
     topicsExplored: Object.fromEntries(topicUniverse.map((topic) => [topic, 0])) as Record<Topic, number>,
     visualizationsViewed: {
+      "two-sum": 0,
+      "tree-traversal": 0,
+      "binary-search": 0,
+      "linked-list": 0
+    },
+    visualizationsCompleted: {
       "two-sum": 0,
       "tree-traversal": 0,
       "binary-search": 0,
@@ -59,7 +79,8 @@ export function useProgress(problem: ProblemMetadata) {
           [problem.slug]: new Date().toISOString()
         },
         topicsExplored: { ...emptyProgress().topicsExplored, ...current.topicsExplored },
-        visualizationsViewed: { ...emptyProgress().visualizationsViewed, ...current.visualizationsViewed }
+        visualizationsViewed: { ...emptyProgress().visualizationsViewed, ...current.visualizationsViewed },
+        visualizationsCompleted: { ...emptyProgress().visualizationsCompleted, ...current.visualizationsCompleted }
       };
 
       problem.topics.forEach((topic) => {
@@ -75,13 +96,17 @@ export function useProgress(problem: ProblemMetadata) {
     };
   }, [problem.slug, problem.topics]);
 
-  const markVisualizationViewed = useCallback((kind: VisualizationKind) => {
+  const markVisualizationCompleted = useCallback((kind: VisualizationKind) => {
     setProgress((current) => {
       const next = {
         ...current,
         visualizationsViewed: {
           ...current.visualizationsViewed,
           [kind]: (current.visualizationsViewed[kind] ?? 0) + 1
+        },
+        visualizationsCompleted: {
+          ...current.visualizationsCompleted,
+          [kind]: (current.visualizationsCompleted[kind] ?? 0) + 1
         }
       };
       void setStorage(next);
@@ -99,5 +124,5 @@ export function useProgress(problem: ProblemMetadata) {
     [progress.topicsExplored]
   );
 
-  return { progress, topicPercentages, markVisualizationViewed };
+  return { progress, topicPercentages, markVisualizationCompleted };
 }

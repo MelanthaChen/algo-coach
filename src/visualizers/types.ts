@@ -3,7 +3,7 @@ import type { ProblemMetadata, Topic, VisualizationKind } from "../types/algo";
 
 export interface VisualizerProps {
   problem: ProblemMetadata;
-  onViewed: (kind: VisualizationKind) => void;
+  onVisualizationCompleted: (kind: VisualizationKind) => void;
 }
 
 export interface VisualizerRegistryEntry {

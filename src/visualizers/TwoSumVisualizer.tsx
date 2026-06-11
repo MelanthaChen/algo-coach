@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { CheckCircle2 } from "lucide-react";
 import { cn } from "../lib/cn";
 import { VisualizerControls } from "./VisualizerControls";
@@ -28,13 +28,17 @@ const steps = [
   }
 ];
 
-export function TwoSumVisualizer({ onViewed }: VisualizerProps) {
+export function TwoSumVisualizer({ onVisualizationCompleted }: VisualizerProps) {
   const playback = usePlayback(steps.length, 1100);
   const step = steps[playback.stepIndex];
+  const completedRef = useRef(false);
 
   useEffect(() => {
-    onViewed("two-sum");
-  }, [onViewed]);
+    if (playback.stepIndex === steps.length - 1 && !completedRef.current) {
+      completedRef.current = true;
+      onVisualizationCompleted("two-sum");
+    }
+  }, [onVisualizationCompleted, playback.stepIndex]);
 
   return (
     <div className="space-y-3">

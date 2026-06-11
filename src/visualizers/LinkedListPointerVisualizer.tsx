@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import { cn } from "../lib/cn";
 import { VisualizerControls } from "./VisualizerControls";
@@ -15,13 +15,17 @@ const steps = [
   { label: "Finish reversal", prev: "4", current: "null", next: "null", reversed: ["4", "3", "2", "1"], detail: "When current is null, prev is the new head." }
 ];
 
-export function LinkedListPointerVisualizer({ onViewed }: VisualizerProps) {
+export function LinkedListPointerVisualizer({ onVisualizationCompleted }: VisualizerProps) {
   const playback = usePlayback(steps.length, 1050);
   const step = steps[playback.stepIndex];
+  const completedRef = useRef(false);
 
   useEffect(() => {
-    onViewed("linked-list");
-  }, [onViewed]);
+    if (playback.stepIndex === steps.length - 1 && !completedRef.current) {
+      completedRef.current = true;
+      onVisualizationCompleted("linked-list");
+    }
+  }, [onVisualizationCompleted, playback.stepIndex]);
 
   return (
     <div className="space-y-3">

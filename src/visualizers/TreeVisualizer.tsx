@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { cn } from "../lib/cn";
 import { VisualizerControls } from "./VisualizerControls";
 import { StatePill } from "./StatePill";
@@ -36,15 +36,23 @@ const dfsSteps = [
   { label: "Finish path", current: "7", queue: [], stack: [], traversal: ["3", "9", "20", "15", "7"], visited: ["3", "9", "20", "15", "7"], detail: "The stack is empty, so DFS is complete." }
 ];
 
-export function TreeVisualizer({ problem, onViewed }: VisualizerProps) {
+export function TreeVisualizer({ problem, onVisualizationCompleted }: VisualizerProps) {
   const mode = problem.topics.includes("DFS") && !problem.topics.includes("BFS") ? "DFS" : "BFS";
   const steps = useMemo(() => (mode === "DFS" ? dfsSteps : bfsSteps), [mode]);
   const playback = usePlayback(steps.length, 950);
   const step = steps[playback.stepIndex];
+  const completedRef = useRef(false);
 
   useEffect(() => {
-    onViewed("tree-traversal");
-  }, [onViewed]);
+    completedRef.current = false;
+  }, [mode]);
+
+  useEffect(() => {
+    if (playback.stepIndex === steps.length - 1 && !completedRef.current) {
+      completedRef.current = true;
+      onVisualizationCompleted("tree-traversal");
+    }
+  }, [onVisualizationCompleted, playback.stepIndex, steps.length]);
 
   return (
     <div className="space-y-3">

@@ -70,5 +70,26 @@ export const learningNotes: Record<Topic, LearningNote> = {
     whenToUse: ["The problem asks you to rewire next pointers.", "You need to insert, delete, reverse, or detect cycles without array indexing."],
     patterns: ["Fast and slow pointers", "Dummy head", "Previous/current/next rewiring", "Cycle detection"],
     complexity: { time: "Most pointer traversals are O(n).", space: "Often O(1) extra when rewiring in place." }
+  },
+  Heap: {
+    topic: "Heap",
+    whatItIs: "A priority queue structure that keeps the smallest or largest item quickly accessible.",
+    whenToUse: ["You repeatedly need the top k values.", "You need to merge sorted streams or schedule by priority."],
+    patterns: ["Top k", "K-way merge", "Median stream", "Priority scheduling"],
+    complexity: { time: "Push and pop are O(log n).", space: "Usually O(k) or O(n), depending on what the heap stores." }
+  },
+  Backtracking: {
+    topic: "Backtracking",
+    whatItIs: "A recursive search strategy that tries a choice, explores it, then undoes the choice.",
+    whenToUse: ["You need all combinations, permutations, subsets, or valid configurations.", "The problem has constraints that prune invalid branches."],
+    patterns: ["Choose/explore/unchoose", "Constraint pruning", "Combination tree", "Permutation tree"],
+    complexity: { time: "Often exponential because it explores a decision tree.", space: "O(depth) recursion plus output storage." }
+  },
+  "Dynamic Programming": {
+    topic: "Dynamic Programming",
+    whatItIs: "A technique for reusing overlapping subproblem results instead of recomputing them.",
+    whenToUse: ["The answer can be built from smaller answers.", "Recursive brute force repeats the same states."],
+    patterns: ["Memoization", "Tabulation", "State transitions", "Knapsack-style choices"],
+    complexity: { time: "Usually number of states times transition cost.", space: "Usually number of cached states." }
   }
 };

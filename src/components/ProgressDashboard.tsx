@@ -3,15 +3,20 @@ import type { Topic } from "../types/algo";
 interface ProgressDashboardProps {
   items: Array<{ topic: Topic; value: number }>;
   problemsVisited: number;
+  visualizationsCompleted: number;
 }
 
-export function ProgressDashboard({ items, problemsVisited }: ProgressDashboardProps) {
+export function ProgressDashboard({ items, problemsVisited, visualizationsCompleted }: ProgressDashboardProps) {
   return (
     <div className="space-y-3">
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-3 gap-2">
         <div className="rounded-md border border-border bg-background p-3">
           <p className="text-xs text-muted-foreground">Problems visited</p>
           <p className="mt-1 text-2xl font-semibold">{problemsVisited}</p>
+        </div>
+        <div className="rounded-md border border-border bg-background p-3">
+          <p className="text-xs text-muted-foreground">Visualizations</p>
+          <p className="mt-1 text-2xl font-semibold">{visualizationsCompleted}</p>
         </div>
         <div className="rounded-md border border-border bg-background p-3">
           <p className="text-xs text-muted-foreground">Tracked topics</p>
@@ -19,7 +24,7 @@ export function ProgressDashboard({ items, problemsVisited }: ProgressDashboardP
         </div>
       </div>
       <div className="space-y-2">
-        {items.slice(0, 6).map((item) => (
+        {items.map((item) => (
           <div key={item.topic} className="space-y-1">
             <div className="flex items-center justify-between text-xs">
               <span>{item.topic}</span>

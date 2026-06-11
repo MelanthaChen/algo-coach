@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { cn } from "../lib/cn";
 import { VisualizerControls } from "./VisualizerControls";
 import { StatePill } from "./StatePill";
@@ -15,13 +15,17 @@ const steps = [
   { label: "Found target", left: 4, mid: 4, right: 4, detail: "mid points at 9, so the search succeeds." }
 ];
 
-export function BinarySearchVisualizer({ onViewed }: VisualizerProps) {
+export function BinarySearchVisualizer({ onVisualizationCompleted }: VisualizerProps) {
   const playback = usePlayback(steps.length, 1000);
   const step = steps[playback.stepIndex];
+  const completedRef = useRef(false);
 
   useEffect(() => {
-    onViewed("binary-search");
-  }, [onViewed]);
+    if (playback.stepIndex === steps.length - 1 && !completedRef.current) {
+      completedRef.current = true;
+      onVisualizationCompleted("binary-search");
+    }
+  }, [onVisualizationCompleted, playback.stepIndex]);
 
   return (
     <div className="space-y-3">

@@ -1,19 +1,25 @@
 import { useMemo, useState } from "react";
-import { BarChart3, BookOpen, BrainCircuit, ChevronsRight, Compass, Eye, Moon, SunMedium } from "lucide-react";
+import { BarChart3, BookOpen, BrainCircuit, ChevronsRight, Compass, Eye, GitFork, Map, Moon, Route, SunMedium } from "lucide-react";
 import { getProblemMetadata } from "./data/problems";
 import { useProgress } from "./hooks/useProgress";
 import { cn } from "./lib/cn";
 import { Badge } from "./components/Badge";
+import { KnowledgeGraph } from "./components/KnowledgeGraph";
+import { LearningModeToggle } from "./components/LearningModeToggle";
 import { LearningNotes } from "./components/LearningNotes";
+import { ProblemRecommendations } from "./components/ProblemRecommendations";
 import { ProgressDashboard } from "./components/ProgressDashboard";
 import { Section } from "./components/Section";
+import { TopicRoadmap } from "./components/TopicRoadmap";
 import { VisualizationEngine } from "./components/VisualizationEngine";
 
 export default function AlgoCoachPanel({ problemSlug }: { problemSlug: string }) {
   const [collapsed, setCollapsed] = useState(false);
   const [dark, setDark] = useState(true);
+  const [learningMode, setLearningMode] = useState(true);
   const problem = useMemo(() => getProblemMetadata(problemSlug), [problemSlug]);
-  const { progress, topicPercentages, markVisualizationViewed } = useProgress(problem);
+  const { progress, topicPercentages, markVisualizationCompleted } = useProgress(problem);
+  const visualizationsCompleted = Object.values(progress.visualizationsCompleted).reduce((total, count) => total + count, 0);
 
   return (
     <aside className={cn("algo-coach fixed right-4 top-20 z-[2147483647] font-sans", dark && "dark")}>
@@ -30,15 +36,18 @@ export default function AlgoCoachPanel({ problemSlug }: { problemSlug: string })
           </div>
           <div className="ml-auto flex items-center gap-1">
             {!collapsed && (
-              <button
-                type="button"
-                aria-label="Toggle dark mode"
-                title="Toggle dark mode"
-                className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-border bg-card hover:bg-accent"
-                onClick={() => setDark((current) => !current)}
-              >
-                {dark ? <SunMedium className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-              </button>
+              <>
+                <LearningModeToggle enabled={learningMode} onToggle={() => setLearningMode((current) => !current)} />
+                <button
+                  type="button"
+                  aria-label="Toggle dark mode"
+                  title="Toggle dark mode"
+                  className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-border bg-card hover:bg-accent"
+                  onClick={() => setDark((current) => !current)}
+                >
+                  {dark ? <SunMedium className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                </button>
+              </>
             )}
             <button
               type="button"
@@ -62,45 +71,69 @@ export default function AlgoCoachPanel({ problemSlug }: { problemSlug: string })
           </button>
         ) : (
           <main className="max-h-[calc(100vh-7rem)] space-y-3 overflow-y-auto p-3">
-            <Section title="Problem Overview" icon={<Compass className="h-4 w-4 text-primary" />}>
-              <div className="space-y-3">
-                <div>
-                  <div className="flex items-center justify-between gap-3">
-                    <h2 className="truncate text-lg font-semibold">{problem.title}</h2>
-                    <Badge className={difficultyClass(problem.difficulty)}>{problem.difficulty}</Badge>
+            {learningMode && (
+              <>
+                <Section title="Problem Overview" icon={<Compass className="h-4 w-4 text-primary" />}>
+                  <div className="space-y-3">
+                    <div>
+                      <div className="flex items-center justify-between gap-3">
+                        <h2 className="truncate text-lg font-semibold">{problem.title}</h2>
+                        <Badge className={difficultyClass(problem.difficulty)}>{problem.difficulty}</Badge>
+                      </div>
+                      <p className="mt-2 text-sm leading-6 text-muted-foreground">{problem.summary}</p>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {problem.topics.map((topic) => (
+                        <Badge key={topic}>{topic}</Badge>
+                      ))}
+                    </div>
                   </div>
-                  <p className="mt-2 text-sm leading-6 text-muted-foreground">{problem.summary}</p>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {problem.topics.map((topic) => (
-                    <Badge key={topic}>{topic}</Badge>
-                  ))}
-                </div>
-              </div>
-            </Section>
+                </Section>
 
-            <Section title="Concepts" icon={<BrainCircuit className="h-4 w-4 text-primary" />}>
-              <div className="grid gap-2">
-                {problem.topics.map((topic) => (
-                  <div key={topic} className="rounded-md border border-border bg-background p-3">
-                    <p className="text-sm font-semibold">{topic}</p>
-                    <p className="mt-1 text-xs leading-5 text-muted-foreground">{conceptHint(topic)}</p>
+                <Section title="Concepts" icon={<BrainCircuit className="h-4 w-4 text-primary" />}>
+                  <div className="grid gap-2">
+                    {problem.topics.map((topic) => (
+                      <div key={topic} className="rounded-md border border-border bg-background p-3">
+                        <p className="text-sm font-semibold">{topic}</p>
+                        <p className="mt-1 text-xs leading-5 text-muted-foreground">{conceptHint(topic)}</p>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </Section>
+                </Section>
+
+                <Section title="Learning Path" icon={<Route className="h-4 w-4 text-primary" />}>
+                  <ProblemRecommendations problem={problem} />
+                </Section>
+
+                <Section title="Topic Roadmap" icon={<Map className="h-4 w-4 text-primary" />} defaultOpen={false}>
+                  <TopicRoadmap activeTopics={problem.topics} />
+                </Section>
+
+                <Section title="Knowledge Graph" icon={<GitFork className="h-4 w-4 text-primary" />} defaultOpen={false}>
+                  <KnowledgeGraph />
+                </Section>
+              </>
+            )}
 
             <Section title="Visualization" icon={<Eye className="h-4 w-4 text-primary" />}>
-              <VisualizationEngine problem={problem} onViewed={markVisualizationViewed} />
+              <VisualizationEngine problem={problem} onVisualizationCompleted={markVisualizationCompleted} />
             </Section>
 
-            <Section title="Learning Notes" icon={<BookOpen className="h-4 w-4 text-primary" />} defaultOpen={false}>
-              <LearningNotes topics={problem.topics} />
-            </Section>
+            {learningMode && (
+              <>
+                <Section title="Learning Notes" icon={<BookOpen className="h-4 w-4 text-primary" />} defaultOpen={false}>
+                  <LearningNotes topics={problem.topics} />
+                </Section>
 
-            <Section title="Progress Dashboard" icon={<BarChart3 className="h-4 w-4 text-primary" />} defaultOpen={false}>
-              <ProgressDashboard items={topicPercentages} problemsVisited={Object.keys(progress.problemsVisited).length} />
-            </Section>
+                <Section title="Progress Dashboard" icon={<BarChart3 className="h-4 w-4 text-primary" />} defaultOpen={false}>
+                  <ProgressDashboard
+                    items={topicPercentages}
+                    problemsVisited={Object.keys(progress.problemsVisited).length}
+                    visualizationsCompleted={visualizationsCompleted}
+                  />
+                </Section>
+              </>
+            )}
           </main>
         )}
       </div>
@@ -125,7 +158,10 @@ function conceptHint(topic: string) {
     Stack: "Store unfinished work when the newest item should be processed first.",
     "Binary Search": "Confirm the range is sorted or the answer space is monotonic before moving pointers.",
     Graph: "Define nodes, edges, visited state, and the traversal goal before coding.",
-    "Linked List": "Track pointer ownership carefully before changing any next reference."
+    "Linked List": "Track pointer ownership carefully before changing any next reference.",
+    Heap: "Use a heap when you repeatedly need the current smallest, largest, or top k element.",
+    Backtracking: "Explore choices recursively and undo state before trying the next branch.",
+    "Dynamic Programming": "Cache overlapping subproblems when local choices combine into global optimal answers."
   };
 
   return hints[topic] ?? "Break the problem into state, transitions, and stopping conditions.";
