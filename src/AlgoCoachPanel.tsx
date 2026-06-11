@@ -9,6 +9,7 @@ import { LearningModeToggle } from "./components/LearningModeToggle";
 import { LearningNotes } from "./components/LearningNotes";
 import { ProblemRecommendations } from "./components/ProblemRecommendations";
 import { ProgressDashboard } from "./components/ProgressDashboard";
+import { ResizablePanel } from "./components/ResizablePanel";
 import { Section } from "./components/Section";
 import { TopicRoadmap } from "./components/TopicRoadmap";
 import { VisualizationEngine } from "./components/VisualizationEngine";
@@ -22,14 +23,13 @@ export default function AlgoCoachPanel({ problemSlug }: { problemSlug: string })
   const visualizationsCompleted = Object.values(progress.visualizationsCompleted).reduce((total, count) => total + count, 0);
 
   return (
-    <aside className={cn("algo-coach fixed right-4 top-20 z-[2147483647] font-sans", dark && "dark")}>
-      <div
-        className={cn(
-          "overflow-hidden rounded-xl border border-border bg-background text-foreground shadow-panel transition-all duration-300",
-          collapsed ? "w-14" : "w-[390px] max-w-[calc(100vw-2rem)]"
-        )}
-      >
-        <header className="flex items-center justify-between gap-3 border-b border-border px-3 py-3">
+    <ResizablePanel
+      collapsed={collapsed}
+      collapsedTab="AlgoCoach"
+      className={cn(dark && "dark")}
+      onExpand={() => setCollapsed(false)}
+      header={
+        <header className="flex items-center justify-between gap-3 px-3 py-3">
           <div className={cn("min-w-0", collapsed && "hidden")}>
             <p className="text-base font-bold">AlgoCoach</p>
             <p className="truncate text-xs text-muted-foreground">Guided practice on LeetCode</p>
@@ -60,17 +60,9 @@ export default function AlgoCoachPanel({ problemSlug }: { problemSlug: string })
             </button>
           </div>
         </header>
-
-        {collapsed ? (
-          <button
-            type="button"
-            className="flex h-52 w-full items-center justify-center text-xs font-semibold uppercase tracking-wide text-muted-foreground [writing-mode:vertical-rl]"
-            onClick={() => setCollapsed(false)}
-          >
-            AlgoCoach
-          </button>
-        ) : (
-          <main className="max-h-[calc(100vh-7rem)] space-y-3 overflow-y-auto p-3">
+      }
+    >
+      <main className="space-y-3">
             {learningMode && (
               <>
                 <Section title="Problem Overview" icon={<Compass className="h-4 w-4 text-primary" />}>
@@ -135,9 +127,7 @@ export default function AlgoCoachPanel({ problemSlug }: { problemSlug: string })
               </>
             )}
           </main>
-        )}
-      </div>
-    </aside>
+    </ResizablePanel>
   );
 }
 
