@@ -61,7 +61,8 @@ function persistWidth(width: number) {
 }
 
 export function ResizablePanel({ collapsed, className, header, children, footer, collapsedTab, onExpand }: ResizablePanelProps) {
-  const [width, setWidth] = useState(DEFAULT_WIDTH);
+  const [width, setWidth] = useState<number | null>(null);
+  const [isInitialized, setIsInitialized] = useState(false);
   const [resizing, setResizing] = useState(false);
   const dragStartRef = useRef<{ x: number; width: number } | null>(null);
   const rafRef = useRef<number | null>(null);
@@ -69,7 +70,9 @@ export function ResizablePanel({ collapsed, className, header, children, footer,
   useEffect(() => {
     let cancelled = false;
     readStoredWidth().then((storedWidth) => {
-      if (!cancelled) setWidth(storedWidth);
+      if (cancelled) return;
+      setWidth(storedWidth);
+      setIsInitialized(true);
     });
 
     return () => {
@@ -78,18 +81,24 @@ export function ResizablePanel({ collapsed, className, header, children, footer,
   }, []);
 
   useEffect(() => {
-    const handleResize = () => setWidth((current) => clampWidth(current));
+    if (!isInitialized) return;
+
+    const handleResize = () => setWidth((current) => (current === null ? current : clampWidth(current)));
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [isInitialized]);
 
-  const panelWidth = useMemo(() => (collapsed ? COLLAPSED_WIDTH : clampWidth(width)), [collapsed, width]);
+  const panelWidth = useMemo(() => {
+    if (width === null) return COLLAPSED_WIDTH;
+    return collapsed ? COLLAPSED_WIDTH : clampWidth(width);
+  }, [collapsed, width]);
 
   const stopResize = useCallback(() => {
     if (!dragStartRef.current) return;
     dragStartRef.current = null;
     setResizing(false);
     setWidth((current) => {
+      if (current === null) return current;
       const nextWidth = clampWidth(current);
       persistWidth(nextWidth);
       return nextWidth;
@@ -124,11 +133,16 @@ export function ResizablePanel({ collapsed, className, header, children, footer,
   }, [onPointerMove, resizing, stopResize]);
 
   const startResize = (event: ReactPointerEvent<HTMLButtonElement>) => {
+    if (width === null) return;
     event.preventDefault();
     event.currentTarget.setPointerCapture(event.pointerId);
     dragStartRef.current = { x: event.clientX, width };
     setResizing(true);
   };
+
+  if (!isInitialized || width === null) {
+    return null;
+  }
 
   return (
     <aside
