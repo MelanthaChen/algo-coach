@@ -27,13 +27,15 @@ function emptyProgress(): ProgressState {
       "two-sum": 0,
       "tree-traversal": 0,
       "binary-search": 0,
-      "linked-list": 0
+      "linked-list": 0,
+      generic: 0
     },
     visualizationsCompleted: {
       "two-sum": 0,
       "tree-traversal": 0,
       "binary-search": 0,
-      "linked-list": 0
+      "linked-list": 0,
+      generic: 0
     }
   };
 }

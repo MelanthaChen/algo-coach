@@ -4,6 +4,38 @@ import problemDifficulties from "./problemDifficulties.json";
 
 const difficulties = problemDifficulties as Record<string, ProblemMetadata["difficulty"]>;
 
+function inferMetadata(slug: string): Pick<ProblemMetadata, "topics" | "visualization" | "summary"> {
+  if (slug.includes("binary-tree") || slug.includes("tree") || slug.includes("bst")) {
+    return {
+      topics: ["Tree", "DFS"],
+      visualization: "tree-traversal",
+      summary: "AlgoCoach detected a tree problem from the LeetCode slug and selected the tree traversal visualizer."
+    };
+  }
+
+  if (slug.includes("binary-search")) {
+    return {
+      topics: ["Array", "Binary Search"],
+      visualization: "binary-search",
+      summary: "AlgoCoach detected a binary search problem from the LeetCode slug."
+    };
+  }
+
+  if (slug.includes("linked-list")) {
+    return {
+      topics: ["Linked List"],
+      visualization: "linked-list",
+      summary: "AlgoCoach detected a linked list problem from the LeetCode slug."
+    };
+  }
+
+  return {
+    topics: [],
+    visualization: "generic",
+    summary: "AlgoCoach does not have enough local metadata to select a specialized visualizer for this problem yet."
+  };
+}
+
 const problemMetadata: Record<string, ProblemMetadata> = {
   "two-sum": {
     slug: "two-sum",
@@ -64,14 +96,15 @@ const problemMetadata: Record<string, ProblemMetadata> = {
 };
 
 export function getProblemMetadata(slug: string): ProblemMetadata {
+  const inferred = inferMetadata(slug);
   return (
     problemMetadata[slug] ?? {
       slug,
       title: titleFromSlug(slug),
       difficulty: "Difficulty unavailable",
-      topics: ["Array"],
-      visualization: "binary-search",
-      summary: "AlgoCoach does not have curated metadata for this problem yet, so it starts with a general array-oriented coaching view."
+      topics: inferred.topics,
+      visualization: inferred.visualization,
+      summary: inferred.summary
     }
   );
 }

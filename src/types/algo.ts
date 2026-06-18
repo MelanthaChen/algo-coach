@@ -13,7 +13,7 @@ export type Topic =
   | "Backtracking"
   | "Dynamic Programming";
 
-export type VisualizationKind = "two-sum" | "tree-traversal" | "binary-search" | "linked-list";
+export type VisualizationKind = "two-sum" | "tree-traversal" | "binary-search" | "linked-list" | "generic";
 export type ProblemDifficulty = "Easy" | "Medium" | "Hard" | "Difficulty unavailable";
 
 export interface ProblemMetadata {

@@ -23,7 +23,8 @@ export default tseslint.config(
     languageOptions: {
       globals: {
         console: "readonly",
-        process: "readonly"
+        process: "readonly",
+        RegExp: "readonly"
       }
     }
   }
