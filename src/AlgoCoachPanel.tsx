@@ -13,12 +13,16 @@ import { ResizablePanel } from "./components/ResizablePanel";
 import { Section } from "./components/Section";
 import { TopicRoadmap } from "./components/TopicRoadmap";
 import { VisualizationEngine } from "./components/VisualizationEngine";
+import type { ProblemDifficulty } from "./types/algo";
 
-export default function AlgoCoachPanel({ problemSlug }: { problemSlug: string }) {
+export default function AlgoCoachPanel({ problemSlug, difficultyOverride }: { problemSlug: string; difficultyOverride?: ProblemDifficulty }) {
   const [collapsed, setCollapsed] = useState(false);
   const [dark, setDark] = useState(true);
   const [learningMode, setLearningMode] = useState(true);
-  const problem = useMemo(() => getProblemMetadata(problemSlug), [problemSlug]);
+  const problem = useMemo(() => {
+    const metadata = getProblemMetadata(problemSlug);
+    return difficultyOverride ? { ...metadata, difficulty: difficultyOverride } : metadata;
+  }, [difficultyOverride, problemSlug]);
   const { progress, topicPercentages, markVisualizationCompleted } = useProgress(problem);
   const visualizationsCompleted = Object.values(progress.visualizationsCompleted).reduce((total, count) => total + count, 0);
 
@@ -134,6 +138,7 @@ export default function AlgoCoachPanel({ problemSlug }: { problemSlug: string })
 function difficultyClass(difficulty: string) {
   if (difficulty === "Easy") return "border-emerald-500/30 bg-emerald-500/10 text-emerald-300";
   if (difficulty === "Hard") return "border-rose-500/30 bg-rose-500/10 text-rose-300";
+  if (difficulty === "Difficulty unavailable") return "border-border bg-muted text-muted-foreground";
   return "border-amber-500/30 bg-amber-500/10 text-amber-300";
 }
 

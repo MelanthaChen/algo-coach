@@ -9,7 +9,8 @@
     "dev": "vite build --watch",
     "build": "npm run assets && tsc --noEmit && vite build",
     "preview": "vite preview",
-    "lint": "eslint . --ext ts,tsx --max-warnings 0"
+    "lint": "eslint . --ext ts,tsx --max-warnings 0",
+    "validate:difficulties": "node scripts/validate-problem-difficulties.mjs"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^5.0.0",

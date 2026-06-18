@@ -14,11 +14,12 @@ export type Topic =
   | "Dynamic Programming";
 
 export type VisualizationKind = "two-sum" | "tree-traversal" | "binary-search" | "linked-list";
+export type ProblemDifficulty = "Easy" | "Medium" | "Hard" | "Difficulty unavailable";
 
 export interface ProblemMetadata {
   slug: string;
   title: string;
-  difficulty: "Easy" | "Medium" | "Hard";
+  difficulty: ProblemDifficulty;
   topics: Topic[];
   visualization: VisualizationKind;
   summary: string;

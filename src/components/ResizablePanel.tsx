@@ -23,7 +23,7 @@ function viewportMaxWidth() {
   if (typeof window === "undefined") return LARGE_SCREEN_MAX_WIDTH;
   const viewportWidth = window.innerWidth;
   if (viewportWidth < SMALL_SCREEN_BREAKPOINT) {
-    return Math.max(MIN_WIDTH, Math.floor(viewportWidth * 0.5));
+    return Math.floor(viewportWidth * 0.5);
   }
 
   return Math.min(LARGE_SCREEN_MAX_WIDTH, viewportWidth - 96);
@@ -125,6 +125,7 @@ export function ResizablePanel({ collapsed, className, header, children, footer,
 
   const startResize = (event: ReactPointerEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    event.currentTarget.setPointerCapture(event.pointerId);
     dragStartRef.current = { x: event.clientX, width };
     setResizing(true);
   };
@@ -134,7 +135,7 @@ export function ResizablePanel({ collapsed, className, header, children, footer,
       className={cn("algo-coach fixed bottom-0 right-0 top-0 z-[2147483647] font-sans", resizing && "select-none", className)}
       style={{ width: panelWidth }}
     >
-      <div className="relative flex h-dvh min-h-0 overflow-hidden border-l border-border bg-background text-foreground shadow-panel transition-[width] duration-200">
+      <div className={cn("relative flex h-dvh min-h-0 overflow-hidden border-l border-border bg-background text-foreground shadow-panel", !resizing && "transition-[width] duration-200")}>
         {!collapsed && <ResizeHandle active={resizing} onPointerDown={startResize} />}
 
         {collapsed ? (

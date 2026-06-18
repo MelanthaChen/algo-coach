@@ -17,5 +17,14 @@ export default tseslint.config(
       ...reactHooks.configs.recommended.rules,
       "no-undef": "off"
     }
+  },
+  {
+    files: ["scripts/**/*.mjs"],
+    languageOptions: {
+      globals: {
+        console: "readonly",
+        process: "readonly"
+      }
+    }
   }
 );
