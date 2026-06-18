@@ -1,4 +1,4 @@
-import type { KnowledgeGraphEdge, ProblemRecommendation, RoadmapTopic, Topic } from "../types/algo";
+import type { AlgorithmPattern, KnowledgeGraphEdge, ProblemRecommendation, RoadmapTopic, Topic } from "../types/algo";
 
 export const topicRoadmap: RoadmapTopic[] = [
   { topic: "Array", label: "Arrays", prerequisites: [], difficulty: "Foundational", order: 1 },
@@ -72,6 +72,59 @@ export const problemRecommendations: Record<string, ProblemRecommendation> = {
   }
 };
 
+const patternRecommendations: Partial<Record<AlgorithmPattern, ProblemRecommendation["nextProblems"]>> = {
+  "Hash Map": [
+    { id: 217, title: "Contains Duplicate", slug: "contains-duplicate" },
+    { id: 242, title: "Valid Anagram", slug: "valid-anagram" },
+    { id: 49, title: "Group Anagrams", slug: "group-anagrams" }
+  ],
+  "Tree Traversal": [
+    { id: 94, title: "Binary Tree Inorder Traversal", slug: "binary-tree-inorder-traversal" },
+    { id: 104, title: "Maximum Depth of Binary Tree", slug: "maximum-depth-of-binary-tree" },
+    { id: 102, title: "Binary Tree Level Order Traversal", slug: "binary-tree-level-order-traversal" }
+  ],
+  DFS: [
+    { id: 104, title: "Maximum Depth of Binary Tree", slug: "maximum-depth-of-binary-tree" },
+    { id: 200, title: "Number of Islands", slug: "number-of-islands" },
+    { id: 79, title: "Word Search", slug: "word-search" }
+  ],
+  BFS: [
+    { id: 102, title: "Binary Tree Level Order Traversal", slug: "binary-tree-level-order-traversal" },
+    { id: 994, title: "Rotting Oranges", slug: "rotting-oranges" },
+    { id: 127, title: "Word Ladder", slug: "word-ladder" }
+  ],
+  "Sliding Window": [
+    { id: 3, title: "Longest Substring Without Repeating Characters", slug: "longest-substring-without-repeating-characters" },
+    { id: 76, title: "Minimum Window Substring", slug: "minimum-window-substring" },
+    { id: 424, title: "Longest Repeating Character Replacement", slug: "longest-repeating-character-replacement" }
+  ],
+  "Dynamic Programming": [
+    { id: 70, title: "Climbing Stairs", slug: "climbing-stairs" },
+    { id: 322, title: "Coin Change", slug: "coin-change" },
+    { id: 198, title: "House Robber", slug: "house-robber" }
+  ],
+  "Monotonic Stack": [
+    { id: 84, title: "Largest Rectangle in Histogram", slug: "largest-rectangle-in-histogram" },
+    { id: 739, title: "Daily Temperatures", slug: "daily-temperatures" },
+    { id: 496, title: "Next Greater Element I", slug: "next-greater-element-i" }
+  ],
+  "Binary Search": [
+    { id: 704, title: "Binary Search", slug: "binary-search" },
+    { id: 35, title: "Search Insert Position", slug: "search-insert-position" },
+    { id: 875, title: "Koko Eating Bananas", slug: "koko-eating-bananas" }
+  ],
+  Graph: [
+    { id: 200, title: "Number of Islands", slug: "number-of-islands" },
+    { id: 133, title: "Clone Graph", slug: "clone-graph" },
+    { id: 207, title: "Course Schedule", slug: "course-schedule" }
+  ],
+  Simulation: [
+    { id: 6, title: "Zigzag Conversion", slug: "zigzag-conversion" },
+    { id: 7, title: "Reverse Integer", slug: "reverse-integer" },
+    { id: 38, title: "Count and Say", slug: "count-and-say" }
+  ]
+};
+
 export const knowledgeGraphEdges: KnowledgeGraphEdge[] = [
   { from: "Arrays", to: "Hash Maps" },
   { from: "Hash Maps", to: "Sliding Window" },
@@ -89,18 +142,20 @@ export function getRoadmapTopic(topic: Topic) {
   return topicRoadmap.find((item) => item.topic === topic);
 }
 
-export function getProblemRecommendation(slug: string, title: string): ProblemRecommendation {
+export function getProblemRecommendation(slug: string, title: string, patterns: AlgorithmPattern[] = []): ProblemRecommendation {
+  const patternNextProblems = patterns.map((pattern) => patternRecommendations[pattern]).find(Boolean);
+
   return (
     problemRecommendations[slug] ?? {
       slug,
       title,
       prerequisites: ["Core data structure basics", "Problem constraints"],
-      nextProblems: [
+      nextProblems: patternNextProblems ?? [
         { id: 704, title: "Binary Search", slug: "binary-search" },
         { id: 217, title: "Contains Duplicate", slug: "contains-duplicate" },
         { id: 104, title: "Maximum Depth of Binary Tree", slug: "maximum-depth-of-binary-tree" }
       ],
-      relatedConcepts: ["Input modeling", "Complexity analysis", "State transitions"]
+      relatedConcepts: patterns.length ? patterns : ["Input modeling", "Complexity analysis", "State transitions"]
     }
   );
 }

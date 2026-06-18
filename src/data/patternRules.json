@@ -1,0 +1,66 @@
+[
+  {
+    "patterns": ["Hash Map"],
+    "keywords": ["two-sum", "anagram", "duplicate", "contains-duplicate", "group-anagrams", "frequency"]
+  },
+  {
+    "patterns": ["Sliding Window", "Hash Map", "String Manipulation"],
+    "keywords": ["longest-substring-without-repeating-characters", "minimum-window", "substring", "subarray-product", "longest-repeating-character"]
+  },
+  {
+    "patterns": ["Tree Traversal", "DFS"],
+    "keywords": ["binary-tree", "tree", "bst", "inorder", "preorder", "postorder", "validate-binary-search-tree"]
+  },
+  {
+    "patterns": ["BFS", "Graph"],
+    "keywords": ["level-order", "shortest-path", "rotting-oranges", "word-ladder"]
+  },
+  {
+    "patterns": ["Binary Search"],
+    "keywords": ["binary-search", "search-insert", "rotated-sorted", "koko-eating-bananas", "capacity-to-ship"]
+  },
+  {
+    "patterns": ["Math", "Simulation"],
+    "keywords": ["reverse-integer", "palindrome-number", "powx-n", "integer-to-roman"]
+  },
+  {
+    "patterns": ["Simulation", "String Manipulation"],
+    "keywords": ["zigzag-conversion", "string-to-integer", "read-n-characters", "count-and-say"]
+  },
+  {
+    "patterns": ["Monotonic Stack"],
+    "keywords": ["largest-rectangle-in-histogram", "daily-temperatures", "next-greater", "trapping-rain-water"]
+  },
+  {
+    "patterns": ["Dynamic Programming"],
+    "keywords": ["coin-change", "climbing-stairs", "house-robber", "edit-distance", "longest-increasing-subsequence"]
+  },
+  {
+    "patterns": ["Two Pointers"],
+    "keywords": ["two-pointers", "container-with-most-water", "3sum", "valid-palindrome", "remove-duplicates"]
+  },
+  {
+    "patterns": ["Backtracking"],
+    "keywords": ["permutations", "subsets", "combination-sum", "n-queens", "word-search"]
+  },
+  {
+    "patterns": ["Heap"],
+    "keywords": ["top-k", "kth-largest", "merge-k-sorted", "median-finder"]
+  },
+  {
+    "patterns": ["Union Find", "Graph"],
+    "keywords": ["union-find", "number-of-connected-components", "redundant-connection", "accounts-merge"]
+  },
+  {
+    "patterns": ["Greedy"],
+    "keywords": ["jump-game", "gas-station", "assign-cookies", "meeting-rooms"]
+  },
+  {
+    "patterns": ["Graph", "DFS", "BFS"],
+    "keywords": ["number-of-islands", "clone-graph", "course-schedule", "graph"]
+  },
+  {
+    "patterns": ["Array"],
+    "keywords": ["array", "matrix", "sort-colors", "merge-sorted-array"]
+  }
+]

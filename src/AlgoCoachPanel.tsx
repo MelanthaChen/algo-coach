@@ -7,6 +7,7 @@ import { Badge } from "./components/Badge";
 import { KnowledgeGraph } from "./components/KnowledgeGraph";
 import { LearningModeToggle } from "./components/LearningModeToggle";
 import { LearningNotes } from "./components/LearningNotes";
+import { PatternSummary } from "./components/PatternSummary";
 import { ProblemRecommendations } from "./components/ProblemRecommendations";
 import { ProgressDashboard } from "./components/ProgressDashboard";
 import { ResizablePanel } from "./components/ResizablePanel";
@@ -95,6 +96,10 @@ export default function AlgoCoachPanel({ problemSlug, difficultyOverride }: { pr
                       </div>
                     ))}
                   </div>
+                </Section>
+
+                <Section title="Patterns" icon={<BrainCircuit className="h-4 w-4 text-primary" />}>
+                  <PatternSummary patterns={problem.patterns} />
                 </Section>
 
                 <Section title="Learning Path" icon={<Route className="h-4 w-4 text-primary" />}>

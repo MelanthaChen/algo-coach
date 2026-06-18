@@ -4,7 +4,7 @@ import type { ProblemMetadata } from "../types/algo";
 import { Badge } from "./Badge";
 
 export function ProblemRecommendations({ problem }: { problem: ProblemMetadata }) {
-  const recommendation = getProblemRecommendation(problem.slug, problem.title);
+  const recommendation = getProblemRecommendation(problem.slug, problem.title, problem.patterns);
 
   return (
     <div className="space-y-4">

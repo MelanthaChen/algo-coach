@@ -15,12 +15,32 @@ export type Topic =
 
 export type VisualizationKind = "two-sum" | "tree-traversal" | "binary-search" | "linked-list" | "generic";
 export type ProblemDifficulty = "Easy" | "Medium" | "Hard" | "Difficulty unavailable";
+export type AlgorithmPattern =
+  | "Array"
+  | "Hash Map"
+  | "Two Pointers"
+  | "Sliding Window"
+  | "Binary Search"
+  | "DFS"
+  | "BFS"
+  | "Tree Traversal"
+  | "Backtracking"
+  | "Heap"
+  | "Monotonic Stack"
+  | "Dynamic Programming"
+  | "Graph"
+  | "Union Find"
+  | "Greedy"
+  | "Simulation"
+  | "Math"
+  | "String Manipulation";
 
 export interface ProblemMetadata {
   slug: string;
   title: string;
   difficulty: ProblemDifficulty;
   topics: Topic[];
+  patterns: AlgorithmPattern[];
   visualization: VisualizationKind;
   summary: string;
 }
@@ -81,4 +101,10 @@ export interface ProblemRecommendation {
 export interface KnowledgeGraphEdge {
   from: string;
   to: string;
+}
+
+export interface PatternDefinition {
+  pattern: AlgorithmPattern;
+  explanation: string;
+  appliesWhen: string;
 }

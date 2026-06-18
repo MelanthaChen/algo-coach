@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Badge } from "../components/Badge";
+import { PatternSummary } from "../components/PatternSummary";
 import type { VisualizerProps } from "./types";
 
 export function GenericVisualizer({ problem, onVisualizationCompleted }: VisualizerProps) {
@@ -11,7 +12,7 @@ export function GenericVisualizer({ problem, onVisualizationCompleted }: Visuali
     <div className="space-y-3">
       <div>
         <p className="text-sm font-semibold">Generic Visualizer</p>
-        <p className="text-xs text-muted-foreground">No specialized visualizer is available for this problem yet.</p>
+        <p className="text-xs text-muted-foreground">No specialized visualizer is available yet, so AlgoCoach is showing inferred patterns.</p>
       </div>
       <div className="rounded-lg border border-border bg-background p-3">
         <p className="text-sm font-semibold">{problem.title}</p>
@@ -22,6 +23,7 @@ export function GenericVisualizer({ problem, onVisualizationCompleted }: Visuali
           ))}
         </div>
       </div>
+      <PatternSummary patterns={problem.patterns} />
     </div>
   );
 }

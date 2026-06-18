@@ -11,7 +11,8 @@
     "preview": "vite preview",
     "lint": "eslint . --ext ts,tsx --max-warnings 0",
     "validate:difficulties": "node scripts/validate-problem-difficulties.mjs",
-    "validate:visualizers": "node scripts/validate-visualizer-selection.mjs"
+    "validate:visualizers": "node scripts/validate-visualizer-selection.mjs",
+    "validate:patterns": "node scripts/validate-pattern-classification.mjs"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^5.0.0",
