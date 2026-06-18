@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent, type ReactNode } from "react";
 import { ResizeHandle } from "./ResizeHandle";
 import { cn } from "../lib/cn";
+import { safeStorageGet, safeStorageSet } from "../lib/safeStorage";
 
 const STORAGE_KEY = "algoCoachPanelWidth";
 const MIN_WIDTH = 320;
@@ -36,28 +37,15 @@ function clampWidth(width: number) {
 }
 
 function readStoredWidth(): Promise<number> {
-  return new Promise((resolve) => {
-    if (typeof chrome === "undefined" || !chrome.storage?.local) {
-      const stored = Number(localStorage.getItem(STORAGE_KEY));
-      resolve(Number.isFinite(stored) ? clampWidth(stored) : clampWidth(DEFAULT_WIDTH));
-      return;
-    }
-
-    chrome.storage.local.get(STORAGE_KEY, (result) => {
-      const stored = Number(result[STORAGE_KEY]);
-      resolve(Number.isFinite(stored) ? clampWidth(stored) : clampWidth(DEFAULT_WIDTH));
-    });
+  return safeStorageGet<number>(STORAGE_KEY, DEFAULT_WIDTH).then((stored) => {
+    const width = Number(stored);
+    return Number.isFinite(width) ? clampWidth(width) : clampWidth(DEFAULT_WIDTH);
   });
 }
 
 function persistWidth(width: number) {
   const nextWidth = Math.round(clampWidth(width));
-  if (typeof chrome === "undefined" || !chrome.storage?.local) {
-    localStorage.setItem(STORAGE_KEY, String(nextWidth));
-    return;
-  }
-
-  chrome.storage.local.set({ [STORAGE_KEY]: nextWidth });
+  void safeStorageSet(STORAGE_KEY, nextWidth);
 }
 
 export function ResizablePanel({ collapsed, className, header, children, footer, collapsedTab, onExpand }: ResizablePanelProps) {

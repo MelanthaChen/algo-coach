@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { ProblemMetadata, ProgressState, Topic, VisualizationKind } from "../types/algo";
+import { safeStorageGet, safeStorageSet } from "../lib/safeStorage";
 
 const STORAGE_KEY = "algoCoachProgress";
 
@@ -41,29 +42,11 @@ function emptyProgress(): ProgressState {
 }
 
 function getStorage(): Promise<ProgressState> {
-  return new Promise((resolve) => {
-    if (typeof chrome === "undefined" || !chrome.storage?.local) {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      resolve(raw ? (JSON.parse(raw) as ProgressState) : emptyProgress());
-      return;
-    }
-
-    chrome.storage.local.get(STORAGE_KEY, (result) => {
-      resolve((result[STORAGE_KEY] as ProgressState | undefined) ?? emptyProgress());
-    });
-  });
+  return safeStorageGet<ProgressState>(STORAGE_KEY, emptyProgress());
 }
 
 function setStorage(progress: ProgressState): Promise<void> {
-  return new Promise((resolve) => {
-    if (typeof chrome === "undefined" || !chrome.storage?.local) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
-      resolve();
-      return;
-    }
-
-    chrome.storage.local.set({ [STORAGE_KEY]: progress }, () => resolve());
-  });
+  return safeStorageSet(STORAGE_KEY, progress);
 }
 
 export function useProgress(problem: ProblemMetadata) {
